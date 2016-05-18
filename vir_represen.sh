@@ -3,6 +3,8 @@
 # Retrieve from NCBI, sort, cluster and create viral sequences database
 # retrieve_fasta_from_NCBI.py, psi-cd-hit-est.pl and usearch must be alias defined. The script should be sourced (. script.sh).
 
+mkdir files
+cd files/
 
 #variables:
 queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] AND ("101"[SLEN] : "900000000"[SLEN]) NOT patent[All Fields] NOT unverified[Title] NOT chimeric[Title] NOT vector[Title] NOT method[Title]"
