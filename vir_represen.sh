@@ -7,7 +7,7 @@ mkdir files
 cd files/
 
 #variables:
-queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] AND ("101"[SLEN] : "900000000"[SLEN]) NOT patent[All Fields] NOT unverified[Title] NOT chimeric[Title] NOT vector[Title] NOT method[Title]"
+queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] NOT patent[All Fields] NOT unverified[Title] NOT chimeric[Title] NOT vector[Title] NOT method[Title]"
 dbname="nuccore"
 threshold=20000
 id="0.9"
@@ -26,12 +26,12 @@ date "+%Y-%m-%d %H:%M:%S"
 
 #Retrieve RefSeq sequences
 printf "Retrieve RefSeq sequences\n"
-retrieve_fasta -i "$queryString AND refseq[Filter]" -d $dbname -o $outfilename"_"RS -l $outfilename"_"RS.log &
+retrieve_fasta -i "$queryString AND refseq[Filter]" -d $dbname -o $outfilename"_"RS -l $outfilename"_"RS.log --bins "100 900000000" &
 pids[1]=$!
 
 #Retrieve not RefSeq sequences
 printf "Retrieve not-RefSeq sequences\n"
-retrieve_fasta -i "$queryString NOT refseq[Filter]" -d $dbname -o $outfilename"_"NOTRS -l $outfilename"_"NOTRS.lo &
+retrieve_fasta -i "$queryString NOT refseq[Filter]" -d $dbname -o $outfilename"_"NOTRS -l $outfilename"_"NOTRS.log --bins "100 500 1000 2000 900000000" &
 pids[2]=$!
 
 for pid in ${pids[*]};
