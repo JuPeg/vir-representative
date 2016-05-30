@@ -31,7 +31,7 @@ pids[1]=$!
 
 #Retrieve not RefSeq sequences
 printf "Retrieve not-RefSeq sequences\n"
-retrieve_fasta -i "$queryString NOT refseq[Filter]" -d $dbname -o $outfilename"_"NOTRS -l $outfilename"_"NOTRS.log --bins "100 500 1000 2000 900000000" &
+retrieve_fasta -i "$queryString NOT refseq[Filter]" -d $dbname -o $outfilename"_"NOTRS -l $outfilename"_"NOTRS.log --bins "100 250 500 750 1000 1500 2000 900000000" &
 pids[2]=$!
 
 for pid in ${pids[*]};
