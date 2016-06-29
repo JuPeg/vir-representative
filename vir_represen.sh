@@ -108,8 +108,7 @@ function prot {
 
 }
 
-prot &
+prot &> >(while read line; do echo -e "$(tput setaf 4)$line$(tput sgr0)" >&2; done) &
 nucc
-
 
 cd ..
