@@ -7,13 +7,13 @@ mkdir files
 cd files/
 
 id=${1:-"0.9"}
+threshold=${2:-20000}
 
 function nucc {
 
     # default parameters:
     queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] NOT patent[All Fields] NOT unverified[Title] NOT chimeric[Title] NOT vector[Title] NOT method[Title] NOT \"uncultured virus\"[Organism]"
     dbname="nuccore"
-    threshold=20000
 
     # file names:
     outfilename="retrievedNCBI"
@@ -45,7 +45,7 @@ function nucc {
     date "+%Y-%m-%d %H:%M:%S"
     #Merge, sort, filter by length
     printf "Nuccore - Merge, sort and filter\n"
-    cat $outfilename"_"RS $outfilename"_"NOTRS | awk '/^>/ {printf("\t%i\n%s\t",len, $0);len=0;next; } { printf("%s",$0); len+=length($0) } END {printf("\t%s",len);}' | sort -r -s -k3 -n | awk -v T=$threshold '{if($3>T){ printf("%s\n%s\n",$1,$2) > "'''$longfile'''"; }else { printf("%s\n%s\n",$1,$2) > "'''$shortfile'''"} }'
+    cat $outfilename"_"RS $outfilename"_"NOTRS | awk '/^>/ {printf("\t%i\n%s\t",len, $0);len=0;next; } { printf("%s",$0); len+=length($0) } END {printf("\t%s",len);}' | sort -r -s -k3 -n | awk -v T=$2 '{if($3>T){ printf("%s\n%s\n",$1,$2) > "'''$longfile'''"; }else { printf("%s\n%s\n",$1,$2) > "'''$shortfile'''"} }'
     date "+%Y-%m-%d %H:%M:%S"
 
     #PSI-CD-HIT
@@ -109,6 +109,6 @@ function prot {
 }
 
 prot $id &> >(while read line; do echo -e "$(tput setaf 4)$line$(tput sgr0)" >&2; done) &
-nucc $id
+nucc $id $threshold
 
 cd ..
