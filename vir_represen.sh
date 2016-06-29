@@ -14,7 +14,7 @@ threshold=${2:-20000}
 function nucc {
 
     # default parameters:
-    queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] NOT patent[All Fields] NOT unverified[Title] NOT chimeric[Title] NOT vector[Title] NOT method[Title] NOT \"uncultured virus\"[Organism]"
+    queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] NOT patent[All Fields] NOT unverified[Title] NOT chimeric[Title] NOT vector[Title] NOT method[Title] NOT \"uncultured virus\"[Organism] AND 101:1300000[Sequence length]"
     dbname="nuccore"
 
     # file names:
