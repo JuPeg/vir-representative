@@ -2,6 +2,8 @@
 
 # Retrieve from NCBI, sort, cluster and create viral sequences database
 # retrieve_fasta_from_NCBI.py, psi-cd-hit-est.pl and usearch must be alias defined. The script should be sourced (. script.sh).
+alias retrieve_fasta="python ~/Documents/artbio/tools-artbio/tools/fetch_fasta_from_ncbi/retrieve_fasta_from_NCBI.py"
+alias psicdhit="~/Documents/cdhit/psi-cd-hit/psi-cd-hit.pl"
 
 mkdir files
 cd files/
