@@ -6,13 +6,14 @@
 mkdir files
 cd files/
 
+id=${1:-"0.9"}
+
 function nucc {
 
     # default parameters:
     queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] NOT patent[All Fields] NOT unverified[Title] NOT chimeric[Title] NOT vector[Title] NOT method[Title] NOT \"uncultured virus\"[Organism]"
     dbname="nuccore"
     threshold=20000
-    id="0.9"
 
     # file names:
     outfilename="retrievedNCBI"
@@ -49,12 +50,12 @@ function nucc {
 
     #PSI-CD-HIT
     printf "Nuccore - Psi-cd-hit\n"
-    psicdhit -i $longfile -o $longout -c $id -prog megablast &
+    psicdhit -i $longfile -o $longout -c $1 -prog megablast &
     pids[1]=$!
 
     #USEARCH
     printf "Nuccore - Usearch\n"
-    usearch -cluster_smallmem $shortfile -id $id -sortedby length -uc $uc -centroids $centroids &
+    usearch -cluster_smallmem $shortfile -id $1 -sortedby length -uc $uc -centroids $centroids &
     pids[2]=$!
 
     for pid in ${pids[*]};
@@ -76,7 +77,6 @@ function prot {
     # default parameters:
     queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] NOT unverified[Title] NOT (\"virus like particle\"[All Fields] OR \"virus like particles\"[All Fields]) NOT chimeric[Title] NOT vector[Title] NOT method[Title] AND 30:10000[Sequence length]"
     dbname="protein"
-    id="0.9"
 
     # file names:
     outfilename="retrievedNCBI_proteins"
@@ -101,14 +101,14 @@ function prot {
 
     #USEARCH
     printf "Protein - search\n"
-    usearch -cluster_smallmem $outrepr -id $id -sortedby length -uc $uc -centroids $centroids
+    usearch -cluster_smallmem $outrepr -id $1 -sortedby length -uc $uc -centroids $centroids
 
     printf "Finished clustering at: "
     date "+%Y-%m-%d %H:%M:%S"
 
 }
 
-prot &> >(while read line; do echo -e "$(tput setaf 4)$line$(tput sgr0)" >&2; done) &
-nucc
+prot $id &> >(while read line; do echo -e "$(tput setaf 4)$line$(tput sgr0)" >&2; done) &
+nucc $id
 
 cd ..
