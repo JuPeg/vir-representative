@@ -6,13 +6,13 @@
 mkdir files
 cd files/
 
-#variables:
+# default parameters:
 queryString="txid10239[Organism] NOT txid131567[Organism] NOT phage[All Fields] NOT patent[All Fields] NOT unverified[Title] NOT chimeric[Title] NOT vector[Title] NOT method[Title] NOT \"uncultured virus\"[Organism]"
 dbname="nuccore"
 threshold=20000
 id="0.9"
 
-#files:
+# file names:
 outfilename="retrievedNCBI"
 shortfile="shorter.fasta"
 longfile="longer.fasta"
@@ -26,12 +26,12 @@ date "+%Y-%m-%d %H:%M:%S"
 
 #Retrieve RefSeq sequences
 printf "Retrieve RefSeq sequences\n"
-retrieve_fasta -i "$queryString AND refseq[Filter]" -d $dbname -o $outfilename"_"RS -l $outfilename"_"RS.log --bins "100 900000000" &
+retrieve_fasta -i "$queryString AND refseq[Filter]" -d $dbname -o $outfilename"_"RS -l $outfilename"_"RS.log &
 pids[1]=$!
 
 #Retrieve not RefSeq sequences
 printf "Retrieve not-RefSeq sequences\n"
-retrieve_fasta -i "$queryString NOT refseq[Filter]" -d $dbname -o $outfilename"_"NOTRS -l $outfilename"_"NOTRS.log --bins "100 250 500 750 1000 1500 2000 900000000" &
+retrieve_fasta -i "$queryString NOT refseq[Filter]" -d $dbname -o $outfilename"_"NOTRS -l $outfilename"_"NOTRS.log &
 pids[2]=$!
 
 for pid in ${pids[*]};
