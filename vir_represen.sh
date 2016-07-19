@@ -82,7 +82,7 @@ function prot {
 
     # file names:
     outfilename="retrievedNCBI_proteins"
-    outrepr="prot_representative.fasta"
+    outrepr="prot_sorted.fasta"
     uc="prot_representative.uc"
     centroids="prot_representative.fasta"
 
