@@ -8,7 +8,7 @@ alias psicdhit="~/Documents/cdhit/psi-cd-hit/psi-cd-hit.pl"
 mkdir files
 cd files/
 
-id=${1:-"0.9"}
+id=${1:-"0.95"}
 threshold=${2:-20000}
 
 function nucc {
